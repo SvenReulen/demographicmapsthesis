@@ -63,8 +63,8 @@ future_trends <- read.csv('data_2025_2040.csv', fill=TRUE, header = T)
 #+# mun_neth@data = data.frame(mun_neth@data, data_to_join_map[match(mun_neth@data[,2], data_to_join_map[,1]),])
 ### Adding data to map (((DIRECTLY FROM DATASET)))
 future_trends <- subset(future_trends, X2012.2040<=0, select=c(GEM_NAAM, X2012.2040))
-mun_neth@data = data.frame(mun_neth@data, household_change[match(mun_neth@data[,2], household_change[,1]),])
+mun_neth@data = data.frame(mun_neth@data, future_trends[match(mun_neth@data[,2], future_trends[,1]),])
 mun_neth@data
 #   8. Create a nice plotting function with a standardized lay out
 source('plottingmap.r')
-plottingmap("rel_2005_2012", 'Relative difference in amount of households 2005-2012', "purple", "yellow")
+plottingmap("X2012.2040", 'Expected difference in population 2012-2040', "yellow", "red")
