@@ -19,7 +19,11 @@ mun_neth <- readOGR('gem_2012_v1.shp', layer = 'gem_2012_v1')
 # 2. Clean the shapefile from empty water areas
 numberswithvalues <- which(mun_neth@data$AANT_INW > 0)
 mun_neth <- mun_neth[numberswithvalues,]
-
+# Adapting municipalities with untypable names
+mun_neth$GM_NAAM <- as.factor(replace(as.character(mun_neth$GM_NAAM), 406, "S·dwest-FryslÔn"))
+mun_neth$GM_NAAM <- as.factor(replace(as.character(mun_neth$GM_NAAM), 245, "GaasterlÔn-Sleat"))
+mun_neth$GM_NAAM <- as.factor(replace(as.character(mun_neth$GM_NAAM), 19, "SkarsterlÔn"))
+         
 # 3. Add a CSV file containing all municipal reformations in the last 18 years
 dl_from_dropbox("Gemeentelijke_herindelingen.csv", "ks3o746s6wy1mdd")
 gem_her = read.csv('Gemeentelijke_herindelingen.csv', fill=TRUE, sep = ",", header = T)
@@ -62,9 +66,27 @@ future_trends <- read.csv('data_2025_2040.csv', fill=TRUE, header = T)
 #+# data_to_join_map <- rbind(no_reformations_df_and_data, with_reformations_df_and_data)
 #+# mun_neth@data = data.frame(mun_neth@data, data_to_join_map[match(mun_neth@data[,2], data_to_join_map[,1]),])
 ### Adding data to map (((DIRECTLY FROM DATASET)))
-future_trends <- subset(future_trends, X2012.2040<=0, select=c(GEM_NAAM, X2012.2040))
-mun_neth@data = data.frame(mun_neth@data, household_change[match(mun_neth@data[,2], household_change[,1]),])
-mun_neth@data
+
+
 #   8. Create a nice plotting function with a standardized lay out
 source('plottingmap.r')
-plottingmap("rel_2005_2012", 'Relative difference in amount of households 2005-2012', "purple", "yellow")
+### Expected difference in population 2012-2040
+#future_trends <- subset(future_trends, X2012.2040<=0, select=c(GEM_NAAM, X2012.2040))
+#mun_neth@data = data.frame(mun_neth@data, future_trends[match(mun_neth@data[,2], future_trends[,1]),])
+#plottingmap("X2012.2040", 'Expected difference in population 2012-2040', "yellow", "red")
+
+### Municipalities with a shrinking population in 1995-2005/2005-2012
+##growth_decrease <- subset(growth_decrease, X2005.1995<=0, select=c(GEM_NAAM, X2005.1995))
+#mun_neth@data = data.frame(mun_neth@data, growth_decrease[match(mun_neth@data[,2], growth_decrease[,1]),])
+#plottingmap("X2005.1995", 'Municipalities with a shrinking population in 1995-2005', "yellow", "red")
+##growth_decrease <- subset(growth_decrease, X2012.2005<=0, select=c(GEM_NAAM, X2012.2005))
+#mun_neth@data = data.frame(mun_neth@data, growth_decrease[match(mun_neth@data[,2], growth_decrease[,1]),])
+#plottingmap("X2012.2005", 'Municipalities with a shrinking population in 2005-2012', "yellow", "red")
+
+### Relative difference in amount of households 2005-2012
+#mun_neth@data = data.frame(mun_neth@data, household_change[match(mun_neth@data[,2], household_change[,1]),])
+#plottingmap("rel_2005_2012", 'Relative difference in amount of households 2005-2012', "purple", "yellow")
+
+### % of the population 20-65 years in 2012
+mun_neth@data$ = data.frame(mun_neth@data, household_change[match(mun_neth@data[,2], household_change[,1]),])
+#plottingmap("rel_2005_2012", '% of the population 20-65 years in 2012', "purple", "yellow")
