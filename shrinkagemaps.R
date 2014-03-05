@@ -32,11 +32,6 @@ data$GEM_NAAM <- as.factor(replace(as.character(data$GEM_NAAM), 298, "S£dwest-F
 data$GEM_NAAM <- as.factor(replace(as.character(data$GEM_NAAM), 112, "GaasterlÄn-Sleat"))
 data$GEM_NAAM <- as.factor(replace(as.character(data$GEM_NAAM), 315, "SkarsterlÄn"))
 
-#   4. Create a nice plotting function with a standardized lay out
-source('plottingmap.r')
-### 4.1 Relative difference in amount of households 2005-2012
-mun_neth@data = data.frame(mun_neth@data, data[match(mun_neth@data[,2], data[,1]),])
-plottingmap("HH_rel_2005_2012", 'Relative difference in amount of households 2005-2012', "purple", "yellow", "% hh 2005-2012")
 ### 4.2 Difference in population
 # 4.2.1 Municipalities with a shrinking population 1995-2005
 future_trend <- subset(data, inw_2005.1995<=0, select=c(GEM_NAAM, inw_2005.1995))
@@ -45,38 +40,12 @@ plottingmap("inw_2005.1995", 'Municipalities with a shrinking population 1995-20
 # 4.2.2 Municipalities with a shrinking population 2005-2012
 future_trend <- subset(data, inw_2012.2005<=0, select=c(GEM_NAAM, inw_2012.2005))
 mun_neth@data = data.frame(mun_neth@data, future_trend[match(mun_neth@data[,2], future_trend[,1]),])
-plottingmap("inw_2012.2005", 'Municipalities with a shrinking population 2005-2012', "yellow", "red")
+plottingmap("inw_2012.2005", 'Municipalities with a shrinking population 2005-2012', "yellow", "red", "Decrease in population")
 # 4.2.3 Expected difference in population 2012-2025
 future_trend <- subset(data, inw_2012.2025<=0, select=c(GEM_NAAM, inw_2012.2025))
 mun_neth@data = data.frame(mun_neth@data, future_trend[match(mun_neth@data[,2], future_trend[,1]),])
-plottingmap("inw_2012.2025", 'Expected difference in population 2012-2025', "yellow", "red")
+plottingmap("inw_2012.2025", 'Expected difference in population 2012-2025', "yellow", "red", "Decrease in population")
 # 4.2.4 Expected difference in population 2012-2040
 future_trend <- subset(data, inw_2012.2040<=0, select=c(GEM_NAAM, inw_2012.2040))
 mun_neth@data = data.frame(mun_neth@data, future_trend[match(mun_neth@data[,2], future_trend[,1]),])
-plottingmap("inw_2012.2040", 'Expected difference in population 2012-2040', "yellow", "red")
-
-### 4.3 Working population
-# 4.3.1 % of the population 20-65 years 2012 
-mun_neth@data = data.frame(mun_neth@data, data[match(mun_neth@data[,2], data[,1]),])
-plottingmap("X2012_wp", '% of the population 20-65 years 2012', "green", "red")
-# 4.3.2 % of the population 20-65 years 2025
-mun_neth@data = data.frame(mun_neth@data, data[match(mun_neth@data[,2], data[,1]),])
-plottingmap("X2025_wp", '% of the population 20-65 years 2025', "green", "red")
-# 4.3.3 % of the population 20-65 years 2040
-mun_neth@data = data.frame(mun_neth@data, data[match(mun_neth@data[,2], data[,1]),])
-plottingmap("X2040_wp", '% of the population 20-65 years 2040', "green", "red")
-
-### 4.4 Aging
-# 4.4.1 % of the population 65+ 2012 
-mun_neth@data = data.frame(mun_neth@data, data[match(mun_neth@data[,2], data[,1]),])
-plottingmap("X2012_aging", '% of the population 65+ 2012', "blue", "grey")
-# 4.4.2 % of the population 65+ 2025
-mun_neth@data = data.frame(mun_neth@data, data[match(mun_neth@data[,2], data[,1]),])
-plottingmap("X2025_aging", '% of the population 65+ 2025', "blue", "grey")
-# 4.4.3 % of the population 65+ 2040
-mun_neth@data = data.frame(mun_neth@data, data[match(mun_neth@data[,2], data[,1]),])
-plottingmap("X2040_aging", '% of the population 65+ 2040', "blue", "grey")
-
-### 4.5 Region of interest
-mun_neth@data = data.frame(mun_neth@data, data[match(mun_neth@data[,2], data[,1]),])
-plottingmap("score", 'Municipality score', "green", "red")
+plottingmap("inw_2012.2040", 'Expected difference in population 2012-2040', "yellow", "red", "Decrease in population")
